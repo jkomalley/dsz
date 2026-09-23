@@ -70,11 +70,19 @@ Key design decisions:
   directory-scanning implementations drifting out of sync was the root cause
   of several bugs fixed early in this project's history -- keep scanning
   logic in one place.)
-- Every release gets a `CHANGELOG.md` entry (Keep a Changelog format) added
-  in the same PR as the version bump in `pyproject.toml`. The entry is
-  mandatory: `cd.yml` extracts the `## [x.y.z]` section for the release notes
-  and **aborts before publishing** if it is missing. Publishing, tagging, and
-  the GitHub release all happen automatically once the bump lands on `main`.
+- **Keep `CHANGELOG.md` release-ready.** Any user-facing change adds a bullet
+  under `## [Unreleased]` in the same PR (internal-only refactors, CI, test,
+  and docs changes are exempt). Entries follow the existing Keep a Changelog
+  style — grouped under `### Added`/`### Changed`/`### Fixed`/`### Removed`,
+  one line each, ending with the PR ref `(#N)`.
+- **Releases are automated and notes come from the changelog — never
+  hand-written commit dumps.** Cutting a release is a `chore: release vX.Y.Z`
+  PR that bumps the version (`just bump-version <part>`) and renames
+  `## [Unreleased]` to `## [X.Y.Z] - <date>`, adding a fresh empty
+  `## [Unreleased]` above it. Once the bump lands on `main`, `cd.yml` publishes
+  to PyPI, then tags and creates the GitHub release whose body is that
+  version's `CHANGELOG.md` section; it **aborts before publishing** if the
+  section is missing. See CONTRIBUTING.md → Releasing.
 
 ## Code Style
 

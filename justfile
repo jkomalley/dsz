@@ -16,13 +16,13 @@ install:
 run *args:
     uv run dsz "$@"
 
-# Run tests
+# Run tests without the coverage gate
 test:
-    uv run pytest
+    uv run pytest --no-cov
 
-# Run tests with coverage
+# Run tests with coverage and enforce 100% execution
 test-cov:
-    uv run pytest --cov
+    uv run pytest --cov --cov-fail-under=100
 
 # Check code formatting (for CI)
 format-check:

@@ -1,6 +1,7 @@
 # Justfile for dsz project
 
 set shell := ["bash", "-c"]
+set positional-arguments
 
 # Show available recipes
 default:
@@ -13,7 +14,7 @@ install:
 
 # Run the CLI app locally. Usage: just run --help
 run *args:
-    uv run dsz {{args}}
+    uv run dsz "$@"
 
 # Run tests
 test:

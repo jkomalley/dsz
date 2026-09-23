@@ -61,6 +61,8 @@ Key design decisions:
 
 - Every feature, fix, or other change gets its own branch and pull request --
   no direct commits to main.
+- **PRs are merged with a merge commit** — never squashed or rebased. Both
+  break stacked PRs, and this project family works in stacks.
 - Commits must be atomic: one logical change per commit.
 - Follow DRY -- extract shared logic rather than duplicating it. (The two
   directory-scanning implementations drifting out of sync was the root cause

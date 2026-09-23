@@ -94,6 +94,7 @@ you'd rather not install `just`.
   unrelated edits.
 - Include tests for any new or changed behavior.
 - Make sure `just check` passes cleanly before you open the PR.
+- **PRs are merged with a merge commit** — not squashed, not rebased.
 
 CI runs the full check suite against Python 3.11–3.14 on every pull request.
 

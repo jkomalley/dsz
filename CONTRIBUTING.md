@@ -116,10 +116,11 @@ bump and apply it:
 | --- | --- | --- |
 | Any `feat:` | minor | `just bump-version minor` |
 | Only `fix:` / `docs:` / `chore:` | patch | `just bump-version patch` |
-| A breaking change (`feat!:`, `BREAKING CHANGE`) | major¹ | `just bump-version major` |
+| A breaking change (`feat!:`, `BREAKING CHANGE`) | minor (pre-1.0)¹ | `just bump-version minor` |
 
 ¹ While the project is pre-1.0, breaking changes are released as a **minor**
-bump per semver's 0.x convention.
+bump per semver's 0.x convention. Only once the project reaches 1.0 does a
+breaking change call for `just bump-version major`.
 
 Add the matching `## [x.y.z]` entry to `CHANGELOG.md` in the same PR, in
 [Keep a Changelog](https://keepachangelog.com/) format.

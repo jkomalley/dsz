@@ -57,8 +57,8 @@ just format-check  # ruff format --check
 just lint          # ruff check --fix
 just lint-check    # ruff check
 just typecheck     # ty check
-just test          # pytest
-just test-cov      # pytest with coverage
+just test          # pytest, fast (no coverage)
+just test-cov      # pytest with the 100% coverage gate
 ```
 
 Each task maps to a plain `uv run …` command, so you can run them directly if

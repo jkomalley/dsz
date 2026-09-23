@@ -76,13 +76,14 @@ Key design decisions:
   style — grouped under `### Added`/`### Changed`/`### Fixed`/`### Removed`,
   one line each, ending with the PR ref `(#N)`.
 - **Releases are automated and notes come from the changelog — never
-  hand-written commit dumps.** Cutting a release is a `chore: release vX.Y.Z`
-  PR that bumps the version (`just bump-version <part>`) and renames
-  `## [Unreleased]` to `## [X.Y.Z] - <date>`, adding a fresh empty
-  `## [Unreleased]` above it. Once the bump lands on `main`, `cd.yml` publishes
-  to PyPI, then tags and creates the GitHub release whose body is that
-  version's `CHANGELOG.md` section; it **aborts before publishing** if the
-  section is missing. See CONTRIBUTING.md → Releasing.
+  hand-written commit dumps.** The CD workflow publishes to PyPI when a
+  version bump lands on `main`, then publishes a GitHub release whose body is
+  that version's `CHANGELOG.md` section (extracted between its `## [x.y.z]`
+  heading and the next; it fails the release if the section is missing).
+  Cutting a release is a `chore: release vX.Y.Z` PR that bumps the version and
+  renames `## [Unreleased]` to `## [X.Y.Z] - <date>` (adding a fresh empty
+  `## [Unreleased]` and updating the compare links). See CONTRIBUTING.md →
+  Releasing.
 
 ## Code Style
 

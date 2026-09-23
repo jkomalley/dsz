@@ -105,9 +105,10 @@ CI runs the full check suite against Python 3.11–3.14 on every pull request.
 
 A release is a `chore: release vX.Y.Z` PR, opened on its own, that:
 
-- bumps the version (below), and
+- bumps the version (below),
 - renames `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` and adds a fresh empty
-  `## [Unreleased]` above it.
+  `## [Unreleased]` above it, and
+- updates the compare links at the bottom of `CHANGELOG.md`.
 
 Choose the bump from the changes since the **last release tag**, not just your
 latest work:

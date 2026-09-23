@@ -9,9 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - **Install deps:** `uv sync`
-- **Run tests:** `uv run pytest`
-- **Run single test:** `uv run pytest tests/test_core.py::test_name -v`
-- **Test with coverage:** `uv run pytest --cov=dsz`
+- **Run tests (fast, no coverage):** `just test` (`uv run pytest --no-cov`)
+- **Run single test:** `uv run pytest --no-cov tests/test_core.py::test_name -v`
+  -- the `--no-cov` is required, since the gate in `addopts` fails any partial run.
+- **Test with 100% coverage gate:** `just test-cov` (plain `uv run pytest` is
+  gated too, since the coverage flags live in `addopts`)
 - **Lint:** `uv run ruff check src/ tests/`
 - **Format:** `uv run ruff format src/ tests/`
 - **Type check:** `uv run ty check src/`
@@ -61,16 +63,26 @@ Key design decisions:
 
 - Every feature, fix, or other change gets its own branch and pull request --
   no direct commits to main.
+- **PRs are merged with a merge commit** — never squashed or rebased. Both
+  break stacked PRs, and this project family works in stacks.
 - Commits must be atomic: one logical change per commit.
 - Follow DRY -- extract shared logic rather than duplicating it. (The two
   directory-scanning implementations drifting out of sync was the root cause
   of several bugs fixed early in this project's history -- keep scanning
   logic in one place.)
-- Every release gets a `CHANGELOG.md` entry (Keep a Changelog format) added
-  in the same PR as the version bump in `pyproject.toml`. The entry is
-  mandatory: `cd.yml` extracts the `## [x.y.z]` section for the release notes
-  and **aborts before publishing** if it is missing. Publishing, tagging, and
-  the GitHub release all happen automatically once the bump lands on `main`.
+- **Keep `CHANGELOG.md` release-ready.** Any user-facing change adds a bullet
+  under `## [Unreleased]` in the same PR (internal-only refactors, CI, test,
+  and docs changes are exempt). Entries follow the existing Keep a Changelog
+  style — grouped under `### Added`/`### Changed`/`### Fixed`/`### Removed`,
+  one line each, ending with the PR ref `(#N)`.
+- **Releases are automated and notes come from the changelog — never
+  hand-written commit dumps.** Cutting a release is a `chore: release vX.Y.Z`
+  PR that bumps the version (`just bump-version <part>`) and renames
+  `## [Unreleased]` to `## [X.Y.Z] - <date>`, adding a fresh empty
+  `## [Unreleased]` above it. Once the bump lands on `main`, `cd.yml` publishes
+  to PyPI, then tags and creates the GitHub release whose body is that
+  version's `CHANGELOG.md` section; it **aborts before publishing** if the
+  section is missing. See CONTRIBUTING.md → Releasing.
 
 ## Code Style
 

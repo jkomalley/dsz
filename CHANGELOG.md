@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Built distributions now include the `LICENSE` file (#35)
+
 ## [0.2.1] - 2026-09-02
 
 ### Changed

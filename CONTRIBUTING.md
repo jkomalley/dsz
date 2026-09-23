@@ -26,7 +26,7 @@ Or, without [`just`](https://github.com/casey/just):
 
 ```bash
 uv sync                    # create the venv and install all dependencies
-uv run pre-commit install  # enable the git hooks
+uv run pre-commit install  # enable the pre-commit and pre-push git hooks
 ```
 
 ## Project layout
@@ -57,8 +57,8 @@ just format-check  # ruff format --check
 just lint          # ruff check --fix
 just lint-check    # ruff check
 just typecheck     # ty check
-just test          # pytest
-just test-cov      # pytest with coverage
+just test          # pytest, fast (no coverage)
+just test-cov      # pytest with the 100% coverage gate
 ```
 
 Each task maps to a plain `uv run …` command, so you can run them directly if
@@ -93,13 +93,21 @@ you'd rather not install `just`.
 - Keep commits atomic — a single coherent change each, not a bundle of
   unrelated edits.
 - Include tests for any new or changed behavior.
+- Add a bullet under `## [Unreleased]` in `CHANGELOG.md` for any user-facing
+  change, so the changelog is always release-ready (internal-only refactors,
+  CI, and docs changes are exempt).
 - Make sure `just check` passes cleanly before you open the PR.
+- **PRs are merged with a merge commit** — not squashed, not rebased.
 
 CI runs the full check suite against Python 3.11–3.14 on every pull request.
 
 ## Releasing
 
-A release starts with a version bump merged to `main`, opened as its own PR.
+A release is a `chore: release vX.Y.Z` PR, opened on its own, that:
+
+- bumps the version (below), and
+- renames `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` and adds a fresh empty
+  `## [Unreleased]` above it.
 
 Choose the bump from the changes since the **last release tag**, not just your
 latest work:
@@ -115,13 +123,11 @@ bump and apply it:
 | --- | --- | --- |
 | Any `feat:` | minor | `just bump-version minor` |
 | Only `fix:` / `docs:` / `chore:` | patch | `just bump-version patch` |
-| A breaking change (`feat!:`, `BREAKING CHANGE`) | major¹ | `just bump-version major` |
+| A breaking change (`feat!:`, `BREAKING CHANGE`) | minor (pre-1.0)¹ | `just bump-version minor` |
 
 ¹ While the project is pre-1.0, breaking changes are released as a **minor**
-bump per semver's 0.x convention.
-
-Add the matching `## [x.y.z]` entry to `CHANGELOG.md` in the same PR, in
-[Keep a Changelog](https://keepachangelog.com/) format.
+bump per semver's 0.x convention. Only once the project reaches 1.0 does a
+breaking change call for `just bump-version major`.
 
 The `version-guard` CI job fails any release PR whose bump is too small for the
 commits since the last release (for example, shipping a `feat:` as a patch).

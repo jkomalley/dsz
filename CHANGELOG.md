@@ -70,3 +70,9 @@ No behavioural change to the library or CLI. The only `src/` edit is a
 
 ### Added
 - Initial release.
+
+[Unreleased]: https://github.com/jkomalley/dsz/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/jkomalley/dsz/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/jkomalley/dsz/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/jkomalley/dsz/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/jkomalley/dsz/releases/tag/v0.1.0
